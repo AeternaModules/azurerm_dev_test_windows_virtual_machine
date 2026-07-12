@@ -8,6 +8,8 @@ Required:
     - location
     - name
     - password
+    - password_key_vault_id (alternative to password - read from Key Vault instead)
+    - password_key_vault_secret_name (alternative to password - read from Key Vault instead)
     - resource_group_name
     - size
     - storage_type
@@ -28,20 +30,22 @@ Optional:
 EOT
 
   type = map(object({
-    lab_name                   = string
-    lab_subnet_name            = string
-    lab_virtual_network_id     = string
-    location                   = string
-    name                       = string
-    password                   = string
-    resource_group_name        = string
-    size                       = string
-    storage_type               = string
-    username                   = string
-    allow_claim                = optional(bool) # Default: true
-    disallow_public_ip_address = optional(bool)
-    notes                      = optional(string)
-    tags                       = optional(map(string))
+    lab_name                       = string
+    lab_subnet_name                = string
+    lab_virtual_network_id         = string
+    location                       = string
+    name                           = string
+    password                       = string
+    password_key_vault_id          = optional(string)
+    password_key_vault_secret_name = optional(string)
+    resource_group_name            = string
+    size                           = string
+    storage_type                   = string
+    username                       = string
+    allow_claim                    = optional(bool) # Default: true
+    disallow_public_ip_address     = optional(bool)
+    notes                          = optional(string)
+    tags                           = optional(map(string))
     gallery_image_reference = object({
       offer     = string
       publisher = string

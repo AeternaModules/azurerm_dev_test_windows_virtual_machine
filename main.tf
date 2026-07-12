@@ -1,3 +1,8 @@
+data "azurerm_key_vault_secret" "password" {
+  for_each     = { for k, v in var.dev_test_windows_virtual_machines : k => v if v.password_key_vault_id != null && v.password_key_vault_secret_name != null }
+  name         = each.value.password_key_vault_secret_name
+  key_vault_id = each.value.password_key_vault_id
+}
 resource "azurerm_dev_test_windows_virtual_machine" "dev_test_windows_virtual_machines" {
   for_each = var.dev_test_windows_virtual_machines
 
@@ -6,7 +11,7 @@ resource "azurerm_dev_test_windows_virtual_machine" "dev_test_windows_virtual_ma
   lab_virtual_network_id     = each.value.lab_virtual_network_id
   location                   = each.value.location
   name                       = each.value.name
-  password                   = each.value.password
+  password                   = each.value.password != null ? each.value.password : try(data.azurerm_key_vault_secret.password[each.key].value, null)
   resource_group_name        = each.value.resource_group_name
   size                       = each.value.size
   storage_type               = each.value.storage_type
