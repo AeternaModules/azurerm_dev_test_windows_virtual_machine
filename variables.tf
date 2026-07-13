@@ -8,8 +8,8 @@ Required:
     - location
     - name
     - password
-    - password_key_vault_id (alternative to password - read from Key Vault instead)
-    - password_key_vault_secret_name (alternative to password - read from Key Vault instead)
+    - password_key_vault_id (optional, alternative to password)
+    - password_key_vault_secret_name (optional, alternative to password)
     - resource_group_name
     - size
     - storage_type
@@ -42,7 +42,7 @@ EOT
     size                           = string
     storage_type                   = string
     username                       = string
-    allow_claim                    = optional(bool) # Default: true
+    allow_claim                    = optional(bool)
     disallow_public_ip_address     = optional(bool)
     notes                          = optional(string)
     tags                           = optional(map(string))
@@ -84,6 +84,10 @@ EOT
   # path: storage_type
   #   condition: contains(["Standard", "Premium"], value)
   #   message:   must be one of: Standard, Premium
+  # path: inbound_nat_rule.protocol
+  #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: inbound_nat_rule.backend_port
+  #   source:    validate.PortNumber: no recognizable `if ... { errors = append(...) }` pattern - read it by hand
   # path: tags
   #   condition: length(value) <= 50
   #   message:   [from tags.Validate: invalid when len(value) > 50]
