@@ -16,7 +16,7 @@ output "dev_test_windows_virtual_machines_fqdn" {
 }
 output "dev_test_windows_virtual_machines_gallery_image_reference" {
   description = "Map of gallery_image_reference values across all dev_test_windows_virtual_machines, keyed the same as var.dev_test_windows_virtual_machines"
-  value       = { for k, v in azurerm_dev_test_windows_virtual_machine.dev_test_windows_virtual_machines : k => v.gallery_image_reference if v.gallery_image_reference != null && length(v.gallery_image_reference) > 0 }
+  value       = { for k, v in azurerm_dev_test_windows_virtual_machine.dev_test_windows_virtual_machines : k => one(v.gallery_image_reference) if v.gallery_image_reference != null && length(v.gallery_image_reference) > 0 }
 }
 output "dev_test_windows_virtual_machines_inbound_nat_rule" {
   description = "Map of inbound_nat_rule values across all dev_test_windows_virtual_machines, keyed the same as var.dev_test_windows_virtual_machines"
